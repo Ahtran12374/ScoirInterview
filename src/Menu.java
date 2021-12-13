@@ -6,7 +6,7 @@ import java.util.*;
 public class Menu {
 
     private ArrayList<String> actions = new ArrayList<>(Arrays.asList
-            ("Open file", "Filter by first name", "Filter by Last name", "Filter by DoB", "Exit"));
+            ("Open file", "Filter by first name", "Sort by Last name", "Filter by Last name", "Filter by DoB", "Exit"));
     private ArrayList<Person> listOfPeople = new ArrayList<Person>();
 
     public Menu() {
@@ -16,10 +16,11 @@ public class Menu {
         }
     }
 
+        //add new function choice
     public void runMenu() {
         Output.displayChoices(actions);
         int userInput = Validation.validUserNumberChoice(actions.size());
-        while (userInput != 5) {
+        while (userInput != 6) {
             switch (userInput) {
                 case 1:
                     openCsv();
@@ -31,6 +32,9 @@ public class Menu {
                     sortByLast();
                     break;
                 case 4:
+                    filterByLast();
+                    break;
+                case 5:
                     sortByDoB();
                     break;
             }
@@ -54,6 +58,23 @@ public class Menu {
         Output.printNewLine( "First, Last, DoB");
         listOfPeople.sort(Comparator.comparing(Person::getLastName));
         for(Person person : listOfPeople) {
+            person.printData();
+        }
+        Output.printNewLine("");
+    }
+
+    private void filterByLast() {
+        Output.printNewLine("");
+        Output.printNewLine("Please enter a last name to filter.");
+        String nameMatch = Input.inputString().toLowerCase();
+        ArrayList<Person> filteredPeople = new ArrayList<>();
+        for(Person person : listOfPeople) {
+            if(nameMatch.equals(person.getLastName().toLowerCase())) {
+                filteredPeople.add(person);
+            }
+        }
+        Output.printNewLine( "First, Last, DoB");
+        for(Person person : filteredPeople) {
             person.printData();
         }
         Output.printNewLine("");
